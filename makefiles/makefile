@@ -7,7 +7,7 @@ opciones=-d --name $(nombre_contenedor)
 
 todas= build_run visualizacion eliminacion
 
-build_run:
+build_run: ## Pull de imagen y creacion del contenedor
 	@echo "Pull de imagen"
 	docker pull $(nombre_imagen):$(tag)
 	@echo "Creacion del contenedor"
@@ -16,7 +16,7 @@ build_run:
 	docker ps -a
 
 
-visualizacion:
+visualizacion: ## Visualizacion de imagenes y contenedores
 	@echo "Visualizar imagenes"
 	docker image ls
 	@echo "Visualizar contenedores en ejecucion"
@@ -25,7 +25,7 @@ visualizacion:
 	docker ps -f status=exited
 	
 
-eliminacion:
+eliminacion: ## Eliminazion de imagen y contenedor
 	@echo "Deteniendo contenedor $(nombre_contenedor)..."
 	docker stop $(nombre_contenedor)
 	@echo "Eliminando contendor $(nombre_contenedor)..."
@@ -33,4 +33,8 @@ eliminacion:
 	@echo "Eliminar imagen"
 	docker rmi $(nombre_imagen)
 
-todas: $(todas)
+todas: $(todas) ## Ejecucion de build_run visualizacion eliminacion
+
+.PHONY: help
+help:  ## Muestra la ayuda
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
