@@ -3,6 +3,8 @@ FROM node:12.13
 
 WORKDIR /app
 
+VOLUME /app
+
 COPY . .
 
 RUN npm install 
@@ -11,5 +13,3 @@ EXPOSE 3000
 
 
 CMD ["npm", "run", "start"]
-
-
