@@ -1,0 +1,22 @@
+FROM centos:centos8
+
+RUN sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
+
+RUN sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
+
+RUN dnf clean all
+
+RUN dnf swap centos-linux-repos centos-stream-repos -y
+
+RUN yum -y install openssh-server sudo nano epel-release openssl certmonger; systemctl enable sshd.service
+
+RUN ssh-keygen -A
+
+RUN echo "root:1234" | chpasswd
+
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+EXPOSE 22
+EXPOSE 80
+
+CMD ["/usr/sbin/sshd", "-D"]
