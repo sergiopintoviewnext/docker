@@ -16,12 +16,12 @@ services:
       - "3000:3000"
 
   db:
-    container_name: db_gra
+    container_name: db
     image: mysql
     restart: always
     environment:
-      MYSQL_DATABASE: zabbix
-      MYSQL_USER: zabbix
+      MYSQL_DATABASE: my_db
+      MYSQL_USER: m_db
       MYSQL_PASSWORD: 123456
       MYSQL_ROOT_PASSWORD: 123456
     volumes:
